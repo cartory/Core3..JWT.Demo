@@ -44,7 +44,18 @@ namespace Core3.JWT.Controllers
         [HttpGet]
         [Route("authenticated")]
         [Authorize]
-        public string Authenticated() => String.Format("Authenticated - {0}", User.Identity.Name);
+        public string Authenticated()
+        {
+            Dictionary<string, string> requestHeaders = new Dictionary<string, string>();
+            foreach (var header in Request.Headers)
+            {
+                requestHeaders.Add(header.Key, header.Value);
+            }
+
+            var headers = requestHeaders;
+
+            return string.Format("Authenticated - {0}", User.Identity.Name);
+        }
 
         [HttpGet]
         [Route("tester")]
